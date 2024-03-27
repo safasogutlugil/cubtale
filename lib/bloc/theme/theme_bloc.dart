@@ -106,6 +106,11 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
                 backgroundColor: Color.fromRGBO(28, 150, 138, 0.494),
               ),
             ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.black,
+              ),
+            ),
           )
         : ThemeData.dark().copyWith(
             primaryColor: Color.fromRGBO(28, 150, 138, 0.494), // AppBar color
@@ -124,8 +129,14 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
                 ),
             elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.black,
                 backgroundColor: Color.fromRGBO(28, 150, 138,
                     0.494), // Button background color for dark theme
+              ),
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
               ),
             ),
           );
