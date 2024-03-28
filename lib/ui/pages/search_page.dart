@@ -7,6 +7,9 @@ import '../../bloc/login/login_bloc.dart';
 import '../../bloc/login/login_event.dart';
 import '../../bloc/search/search_bloc.dart';
 import '../../bloc/search/search_event.dart';
+import 'package:intl/intl.dart';
+
+import '../../bloc/search/search_state.dart';
 
 class SearchPage extends StatelessWidget {
   final String searchType;
@@ -51,10 +54,8 @@ class SearchPage extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.asset(
-                  'assets/images/cubtale-logo1.png'), // Replace with your asset path
-              Image.asset(
-                  'assets/images/Cubtale-watermark.png'), // Replace with your asset path
+              Image.asset('assets/images/cubtale-logo1.png'),
+              Image.asset('assets/images/Cubtale-watermark.png'),
             ],
           ),
         ),
@@ -62,7 +63,6 @@ class SearchPage extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () {
-                // Navigate to SearchPage and initiate search by mail
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => BlocProvider.value(
                     value: BlocProvider.of<SearchBloc>(context)
@@ -76,7 +76,6 @@ class SearchPage extends StatelessWidget {
             Image.asset('../assets/images/vertical-divider.png'),
             TextButton(
               onPressed: () {
-                // Navigate to SearchPage and initiate search by ID
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => BlocProvider.value(
                     value: BlocProvider.of<SearchBloc>(context)
@@ -90,7 +89,6 @@ class SearchPage extends StatelessWidget {
             Image.asset('../assets/images/vertical-divider.png'),
             TextButton(
               onPressed: () {
-                // Navigate to SearchPage and initiate search by date
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => BlocProvider.value(
                     value: BlocProvider.of<SearchBloc>(context)
@@ -104,7 +102,6 @@ class SearchPage extends StatelessWidget {
           ],
         ),
         actions: [
-          // IconButton or GestureDetector can be used based on your preference
           PopupMenuButton<String>(
             onOpened: () => appBarBloc.add(AppBarMenuToggleEvent()),
             icon: isMenuOpen
@@ -117,14 +114,13 @@ class SearchPage extends StatelessWidget {
                         (_) => Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 6.0),
                           child: Image.asset(
-                              '../assets/images/vertical-divider.png'), // Make sure you have this asset
+                              '../assets/images/vertical-divider.png'),
                         ),
                       ),
                     ),
                   )
                 : Image.asset('assets/images/menu_burger.png'),
             onSelected: (value) {
-              // Handle the 'Logout' menu selection
               if (value == 'Logout') {
                 context.read<LoginBloc>().add(LogoutEvent());
               }
@@ -139,7 +135,7 @@ class SearchPage extends StatelessWidget {
                         Theme.of(context).brightness == Brightness.dark
                             ? 'assets/images/profile_image_dark.png'
                             : 'assets/images/profile_image_light.png',
-                      ), // Replace with actual asset path
+                      ),
                       radius: 30,
                     ),
                     Padding(
@@ -188,45 +184,115 @@ class SearchWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _controller = TextEditingController(text: '');
+
+    void searchAction() {
+      if (searchType == 'mail' && _controller.text != '') {
+        BlocProvider.of<SearchBloc>(context)
+            .add(SearchByMailEvent(email: _controller.text));
+      } else if (searchType == 'id' && _controller.text.isNotEmpty) {
+        BlocProvider.of<SearchBloc>(context)
+            .add(SearchByIdEvent(id: _controller.text));
+      } else if (searchType == 'date' && _controller.text.isNotEmpty) {
+        BlocProvider.of<SearchBloc>(context)
+            .add(SearchByDateEvent(date: _controller.text));
+      }
+    }
+
     return Center(
       child: Card(
         elevation: 4.0,
         margin: const EdgeInsets.all(16.0),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
+            children: [
               Text(
                 searchTitle,
                 style: TextStyle(
-                  fontSize: Theme.of(context).textTheme.titleLarge?.fontSize,
-                  fontWeight:
-                      Theme.of(context).textTheme.titleLarge?.fontWeight,
-                  color: Colors.black, // Here we set the text color to black
+                  fontSize: Theme.of(context).textTheme.headline6?.fontSize,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
               ),
               const SizedBox(height: 20),
-              TextField(
-                keyboardType: inputType,
-                decoration: InputDecoration(
-                  labelText: 'Enter $searchTitle',
-                  border: OutlineInputBorder(),
-                  suffixIcon: Icon(searchIcon),
+              if (searchType != 'date')
+                TextField(
+                  controller: _controller,
+                  keyboardType: inputType,
+                  decoration: InputDecoration(
+                    labelText: 'Enter $searchTitle',
+                    border: OutlineInputBorder(),
+                    suffixIcon: Icon(searchIcon),
+                  ),
+                )
+              else
+                InkWell(
+                  onTap: () async {
+                    final DateTime? picked = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2101),
+                    );
+
+                    _controller.text = DateFormat('dd-MM-yyyy').format(picked!);
+                  },
+                  child: IgnorePointer(
+                    child: TextField(
+                      controller: _controller,
+                      decoration: InputDecoration(
+                        labelText: 'Enter $searchTitle',
+                        border: OutlineInputBorder(),
+                        suffixIcon: Icon(Icons.calendar_today),
+                      ),
+                    ),
+                  ),
                 ),
-                onSubmitted: (value) {
-                  if (searchType == 'mail') {
-                    BlocProvider.of<SearchBloc>(context)
-                        .add(SearchByMailEvent(email: value));
-                  } else if (searchType == 'id') {
-                    BlocProvider.of<SearchBloc>(context)
-                        .add(SearchByIdEvent(id: value));
-                  } else if (searchType == 'date') {
-                    BlocProvider.of<SearchBloc>(context)
-                        .add(SearchByDateEvent(date: value));
+              ElevatedButton(
+                onPressed: searchAction,
+                child: Text('Search'),
+              ),
+              BlocBuilder<SearchBloc, SearchState>(
+                builder: (context, state) {
+                  if (state is SearchLoadingState) {
+                    return CircularProgressIndicator();
+                  } else if (state is SearchSuccessState) {
+                    return Flexible(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: state.results.length,
+                        itemBuilder: (context, index) {
+                          final user = state.results[index];
+                          return Card(
+                            child: ListTile(
+                              title: Text(
+                                  '${user['acc_name']} ${user['acc_surname']}'),
+                              subtitle: SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('ID: ${user['acc_id']}'),
+                                    Text('Email: ${user['acc_mail']}'),
+                                    Text('Verified: ${user['acc_verified']}'),
+                                    Text(
+                                        'Creation Date: ${user['acc_creation_date']}'),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  } else {
+                    return SizedBox
+                        .shrink(); // Fallback for initial or undefined states
                   }
                 },
-              ),
+              )
             ],
           ),
         ),

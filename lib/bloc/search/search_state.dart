@@ -2,20 +2,18 @@ abstract class SearchState {}
 
 class SearchInitialState extends SearchState {}
 
-class SearchByMailState extends SearchState {
-  final String result;
+class SearchLoadingState extends SearchState {}
 
-  SearchByMailState({required this.result});
+class SearchEmptyState extends SearchState {}
+
+class SearchErrorState extends SearchState {
+  final String message;
+
+  SearchErrorState(this.message);
 }
 
-class SearchByIdState extends SearchState {
-  final String result;
+class SearchSuccessState extends SearchState {
+  final List<dynamic> results;
 
-  SearchByIdState({required this.result});
-}
-
-class SearchByDateState extends SearchState {
-  final String result;
-
-  SearchByDateState({required this.result});
+  SearchSuccessState({required this.results});
 }
