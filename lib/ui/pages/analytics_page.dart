@@ -31,17 +31,15 @@ class AnalyticsPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Image.asset(
-                      'assets/images/cubtale-logo1.png'), // Update the path as needed
+                      'assets/images/cubtale-logo1.png'), 
                   Image.asset(
-                      'assets/images/Cubtale-watermark.png'), // Update the path as needed
+                      'assets/images/Cubtale-watermark.png'),
                 ],
               ),
-              
               title: Row(
                 children: [
                   TextButton(
                     onPressed: () {
-                      // Navigate to SearchPage and initiate search by mail
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (_) => BlocProvider.value(
                           value: BlocProvider.of<SearchBloc>(context)
@@ -55,7 +53,7 @@ class AnalyticsPage extends StatelessWidget {
                   Image.asset('../assets/images/vertical-divider.png'),
                   TextButton(
                     onPressed: () {
-                      // Navigate to SearchPage and initiate search by ID
+
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (_) => BlocProvider.value(
                           value: BlocProvider.of<SearchBloc>(context)
@@ -69,7 +67,7 @@ class AnalyticsPage extends StatelessWidget {
                   Image.asset('../assets/images/vertical-divider.png'),
                   TextButton(
                     onPressed: () {
-                      // Navigate to SearchPage and initiate search by date
+                      
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (_) => BlocProvider.value(
                           value: BlocProvider.of<SearchBloc>(context)
@@ -83,7 +81,7 @@ class AnalyticsPage extends StatelessWidget {
                 ],
               ),
               actions: [
-                // IconButton or GestureDetector can be used based on your preference
+                
                 PopupMenuButton<String>(
                   onOpened: () => bloc.add(AppBarMenuToggleEvent()),
                   icon: isMenuOpen
@@ -97,14 +95,14 @@ class AnalyticsPage extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 6.0),
                                 child: Image.asset(
-                                    '../assets/images/vertical-divider.png'), // Make sure you have this asset
+                                    '../assets/images/vertical-divider.png'), 
                               ),
                             ),
                           ),
                         )
                       : Image.asset('assets/images/menu_burger.png'),
                   onSelected: (value) {
-                    // Handle the 'Logout' menu selection
+                    
                     if (value == 'Logout') {
                       context.read<LoginBloc>().add(LogoutEvent());
                     }
@@ -119,7 +117,7 @@ class AnalyticsPage extends StatelessWidget {
                               Theme.of(context).brightness == Brightness.dark
                                   ? 'assets/images/profile_image_dark.png'
                                   : 'assets/images/profile_image_light.png',
-                            ), // Replace with actual asset path
+                            ),
                             radius: 30,
                           ),
                           Padding(
@@ -164,103 +162,88 @@ class AnalyticsPage extends StatelessWidget {
 
 Widget _buildDummyCard(BuildContext context, String title) {
   return Card(
-    child: Center(
-      child: Column(
-        children: [
-          Text(
-            title,
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge
-                ?.copyWith(color: Colors.black),
-          ),
-          Container(
-            margin: EdgeInsets.all(10),
-            width: 500,
-            height: 250,
-            decoration: BoxDecoration(color: Colors.white),
-          ),
-        ],
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Center(
+        child: Text(
+          title,
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge
+              ?.copyWith(color: Colors.black),
+          textAlign: TextAlign.center,
+        ),
       ),
     ),
   );
 }
 
 Widget _buildTodaysNewUsersCard(BuildContext context) {
-  // Define the inner padding for the inner card
-  const double innerPadding = .0;
-
-  // Calculate the total horizontal padding for the grid
-  const double gridHorizontalPadding = innerPadding * 2;
-
-  // Calculate the aspect ratio for the items based on screen width
-  double screenWidth = MediaQuery.of(context).size.width;
-  double itemHeight = 60.0; // Fixed height for each user list item
-  double itemWidth = (screenWidth - gridHorizontalPadding) / 2; // Two columns
-  double childAspectRatio = itemWidth / itemHeight;
-
-  return Card(
-    margin: EdgeInsets.all(8.0),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            'TODAYS NEW USERS',
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge
-                ?.copyWith(color: Colors.black),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        Expanded(
-          child: Container(
-            margin: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(innerPadding),
-              child: GridView.count(
-                crossAxisCount: 2,
-                childAspectRatio: childAspectRatio,
-                crossAxisSpacing: innerPadding,
-                mainAxisSpacing: innerPadding,
-                children: List.generate(
-                  4, // The number of times the user list is repeated
-                  (index) => _buildUserList(context),
-                ).expand((element) => element).toList(),
-              ),
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-List<Widget> _buildUserList(BuildContext context) {
-  // Sample data, you can replace this with actual user data.
-  List<Map<String, String>> users = [
+  final List<Map<String, String>> users = [
     {"Name": "John Doe", "Email": "johndoe@gmail.com"},
     {"Name": "Sammy Johnson", "Email": "sammyjohnson@gmail.com"},
     {"Name": "Pricila Miller", "Email": "pricilamiller@gmail.com"},
   ];
 
-  return users
-      .map((user) => Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(user['Name'] ?? ''),
-                Text(user['Email'] ?? ''),
-                Icon(Icons.arrow_forward_ios),
-              ],
-            ),
-          ))
+  List<Widget> userTiles = users
+      .map(
+        (user) => Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                child: Text(
+                  user['Name']!,
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  user['Email']!,
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              const Expanded(
+                child: Text(
+                  ' >',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          ),
+        ),
+      )
       .toList();
+
+  userTiles = List.generate(4, (_) => userTiles).expand((x) => x).toList();
+
+  return Card(
+    child: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'TODAYS NEW USERS',
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge!
+                .copyWith(color: Colors.black),
+          ),
+          SizedBox(height: 16),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Wrap(
+                children: userTiles,
+                alignment: WrapAlignment.start,
+                spacing: 8, 
+                runSpacing: 8,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }

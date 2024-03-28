@@ -5,7 +5,6 @@ import '../../bloc/login/login_event.dart';
 import '../../bloc/login/login_state.dart';
 import '../../bloc/theme/theme_bloc.dart';
 import '../../bloc/theme/theme_event.dart';
-import '../../bloc/theme/theme_state.dart';
 import '../error_dialog.dart';
 
 class LoginPage extends StatelessWidget {
@@ -13,19 +12,16 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Obtain the ThemeBloc instance
     final themeBloc = BlocProvider.of<ThemeBloc>(context);
 
-    // Use BlocProvider to provide LoginBloc to the subtree
     return BlocProvider<LoginBloc>(
       create: (context) => LoginBloc(),
       child: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
-          // Listen to the state and show a dialog when there is an error
           if (state.errorMessage != null && state.errorMessage!.isNotEmpty) {
             showDialog(
               context: context,
-              barrierDismissible: false, // User must tap button!
+              barrierDismissible: false, 
               builder: (BuildContext context) {
                 return ErrorDialog(message: state.errorMessage!);
               },
@@ -46,9 +42,9 @@ class LoginPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Image.asset(
-                      'assets/images/cubtale-logo1.png'), // Update the path as needed
+                      'assets/images/cubtale-logo1.png'), 
                   Image.asset(
-                      'assets/images/Cubtale-watermark.png'), // Update the path as needed
+                      'assets/images/Cubtale-watermark.png'),
                 ],
               ),
               actions: [
@@ -108,7 +104,6 @@ class LoginCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Obtain LoginBloc instance
     final LoginBloc loginBloc = BlocProvider.of<LoginBloc>(context);
 
     return FractionallySizedBox(
@@ -127,7 +122,7 @@ class LoginCard extends StatelessWidget {
             children: [
               Text(
                 'Username',
-                style: Theme.of(context).textTheme.subtitle1,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               SizedBox(height: 8.0),
               TextField(
@@ -141,7 +136,7 @@ class LoginCard extends StatelessWidget {
               SizedBox(height: 16.0),
               Text(
                 'Password',
-                style: Theme.of(context).textTheme.subtitle1,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               SizedBox(height: 8.0),
               TextField(
@@ -158,13 +153,11 @@ class LoginCard extends StatelessWidget {
                 alignment: Alignment.center,
                 child: ElevatedButton(
                   onPressed: () {
-                    FocusScope.of(context).unfocus(); // Hide the keyboard
-                    // Update the bloc with the current username and password
+                    FocusScope.of(context).unfocus(); 
                     loginBloc.add(LoginUsernameChanged(
                         username: _usernameController.text));
                     loginBloc.add(LoginPasswordChanged(
                         password: _passwordController.text));
-                    // Trigger the login process
                     loginBloc.add(LoginSubmitted());
                   },
                   child: Text('Login'),

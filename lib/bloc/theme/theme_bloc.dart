@@ -12,7 +12,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
             themeData: ThemeData.light().copyWith(
               primaryColor: Color.fromRGBO(28, 150, 138, 0.494),
               scaffoldBackgroundColor:
-                  Colors.white, // Light theme background color
+                  Colors.white, 
               appBarTheme: AppBarTheme(
                 color: Color.fromRGBO(28, 150, 138, 0.494),
               ),
@@ -20,16 +20,16 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
                 color: Color.fromRGBO(28, 150, 138, 0.494),
                 shape: RoundedRectangleBorder(
                   borderRadius:
-                      BorderRadius.circular(20.0), // Rounded edges for Card
+                      BorderRadius.circular(20.0), 
                 ),
               ),
               textTheme: ThemeData.light()
                   .textTheme
                   .apply(
                     bodyColor: Color.fromRGBO(
-                        28, 150, 138, 0.494), // Dark green text color
+                        28, 150, 138, 0.494), 
                     displayColor: Color.fromRGBO(
-                        28, 150, 138, 0.494), // Dark green text color
+                        28, 150, 138, 0.494), 
                   )
                   .copyWith(
                     titleMedium: ThemeData.light()
@@ -44,7 +44,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
                   borderSide:
                       BorderSide(color: Color.fromRGBO(28, 150, 138, 0.494)),
                   borderRadius: BorderRadius.circular(
-                      20.0), // Rounded edges for TextField
+                      20.0), 
                 ),
               ),
               elevatedButtonTheme: ElevatedButtonThemeData(
@@ -66,7 +66,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
         ? ThemeData.light().copyWith(
             primaryColor: Color.fromRGBO(28, 150, 138, 0.494),
             scaffoldBackgroundColor:
-                Colors.white, // Light theme background color
+                Colors.white, 
             appBarTheme: AppBarTheme(
               color: Color.fromRGBO(28, 150, 138, 0.494),
             ),
@@ -74,16 +74,16 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
               color: Color.fromRGBO(28, 150, 138, 0.494),
               shape: RoundedRectangleBorder(
                 borderRadius:
-                    BorderRadius.circular(20.0), // Rounded edges for Card
+                    BorderRadius.circular(20.0), 
               ),
             ),
             textTheme: ThemeData.light()
                 .textTheme
                 .apply(
                   bodyColor: Color.fromRGBO(
-                      28, 150, 138, 0.494), // Dark green text color
+                      28, 150, 138, 0.494), 
                   displayColor: Color.fromRGBO(
-                      28, 150, 138, 0.494), // Dark green text color
+                      28, 150, 138, 0.494), 
                 )
                 .copyWith(
                   titleMedium: ThemeData.light()
@@ -98,7 +98,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
                 borderSide:
                     BorderSide(color: Color.fromRGBO(28, 150, 138, 0.494)),
                 borderRadius:
-                    BorderRadius.circular(20.0), // Rounded edges for TextField
+                    BorderRadius.circular(20.0), 
               ),
             ),
             elevatedButtonTheme: ElevatedButtonThemeData(
@@ -113,11 +113,11 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
             ),
           )
         : ThemeData.dark().copyWith(
-            primaryColor: Color.fromRGBO(28, 150, 138, 0.494), // AppBar color
+            primaryColor: Color.fromRGBO(28, 150, 138, 0.494), 
             scaffoldBackgroundColor:
-                Colors.grey[850], // Dark theme background color
+                Colors.grey[850], 
             textTheme: ThemeData.dark().textTheme.apply(
-                  bodyColor: Colors.white, // Text color for dark theme
+                  bodyColor: Colors.white,
                 ),
             inputDecorationTheme: ThemeData.dark()
                 .inputDecorationTheme
@@ -131,7 +131,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.black,
                 backgroundColor: Color.fromRGBO(28, 150, 138,
-                    0.494), // Button background color for dark theme
+                    0.494), 
               ),
             ),
             textButtonTheme: TextButtonThemeData(
@@ -150,7 +150,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     var prefs = await SharedPreferences.getInstance();
     final isDarkMode = prefs.getBool('isDarkMode') ?? false;
     if (isDarkMode) {
-      add(ThemeToggle()); // Trigger an initial toggle if needed
+      add(ThemeToggle()); 
     }
   }
 }

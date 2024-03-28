@@ -211,7 +211,7 @@ class SearchWidget extends StatelessWidget {
               Text(
                 searchTitle,
                 style: TextStyle(
-                  fontSize: Theme.of(context).textTheme.headline6?.fontSize,
+                  fontSize: Theme.of(context).textTheme.titleLarge!.fontSize,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
