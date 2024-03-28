@@ -7,6 +7,9 @@ import '../../bloc/appbar_menu/appbar_menu_state.dart';
 import '../../bloc/appbar_menu/appbar_menu_event.dart';
 import '../../bloc/login/login_bloc.dart';
 import '../../bloc/login/login_event.dart';
+import '../../bloc/search/search_bloc.dart';
+import '../../bloc/search/search_event.dart';
+import 'search_page.dart';
 
 class AnalyticsPage extends StatelessWidget {
   AnalyticsPage({Key? key}) : super(key: key);
@@ -33,24 +36,50 @@ class AnalyticsPage extends StatelessWidget {
                       'assets/images/Cubtale-watermark.png'), // Update the path as needed
                 ],
               ),
+              
               title: Row(
                 children: [
-                  Expanded(child: Text(''), flex: 3),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // Navigate to SearchPage and initiate search by mail
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) => BlocProvider.value(
+                          value: BlocProvider.of<SearchBloc>(context)
+                            ..add(SearchByMailEvent(email: '')),
+                          child: const SearchPage(searchType: 'mail'),
+                        ),
+                      ));
+                    },
                     child: Text('Search by Mail'),
                   ),
                   Image.asset('../assets/images/vertical-divider.png'),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // Navigate to SearchPage and initiate search by ID
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) => BlocProvider.value(
+                          value: BlocProvider.of<SearchBloc>(context)
+                            ..add(SearchByIdEvent(id: '')),
+                          child: SearchPage(searchType: 'id'),
+                        ),
+                      ));
+                    },
                     child: Text('Search by ID'),
                   ),
                   Image.asset('../assets/images/vertical-divider.png'),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // Navigate to SearchPage and initiate search by date
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) => BlocProvider.value(
+                          value: BlocProvider.of<SearchBloc>(context)
+                            ..add(SearchByDateEvent(date: '')),
+                          child: SearchPage(searchType: 'date'),
+                        ),
+                      ));
+                    },
                     child: Text('Search by Date'),
                   ),
-                  Expanded(child: Text(''), flex: 1),
                 ],
               ),
               actions: [
