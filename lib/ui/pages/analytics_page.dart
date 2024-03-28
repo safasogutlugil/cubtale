@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/appbar_menu/appbar_menu_bloc.dart';
 import '../../bloc/appbar_menu/appbar_menu_state.dart';
 import '../../bloc/appbar_menu/appbar_menu_event.dart';
+import '../../bloc/login/login_bloc.dart';
+import '../../bloc/login/login_event.dart';
 
 class AnalyticsPage extends StatelessWidget {
   AnalyticsPage({Key? key}) : super(key: key);
@@ -75,7 +77,7 @@ class AnalyticsPage extends StatelessWidget {
                   onSelected: (value) {
                     // Handle the 'Logout' menu selection
                     if (value == 'Logout') {
-                      // TODO: Implement logout logic
+                      context.read<LoginBloc>().add(LogoutEvent());
                     }
                   },
                   itemBuilder: (BuildContext context) => [
@@ -138,7 +140,10 @@ Widget _buildDummyCard(BuildContext context, String title) {
         children: [
           Text(
             title,
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(color: Colors.black),
           ),
           Container(
             margin: EdgeInsets.all(10),
@@ -174,14 +179,20 @@ Widget _buildTodaysNewUsersCard(BuildContext context) {
           padding: const EdgeInsets.all(16.0),
           child: Text(
             'TODAYS NEW USERS',
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(color: Colors.black),
             textAlign: TextAlign.center,
           ),
         ),
         Expanded(
           child: Container(
             margin: EdgeInsets.all(10),
-            decoration: BoxDecoration(color: Colors.white),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(innerPadding),
               child: GridView.count(

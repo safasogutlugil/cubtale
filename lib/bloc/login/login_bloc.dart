@@ -6,13 +6,12 @@ import 'login_event.dart';
 import 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-
   LoginBloc() : super(LoginState()) {
     on<LoginUsernameChanged>(_onUsernameChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
     on<LoginSubmitted>(_onLoginSubmitted);
     on<ResetErrorEvent>(_onResetError);
-    
+    on<LogoutEvent>(_onLogout);
   }
   void _onUsernameChanged(
       LoginUsernameChanged event, Emitter<LoginState> emit) {
@@ -23,12 +22,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       LoginPasswordChanged event, Emitter<LoginState> emit) {
     emit(state.copyWith(password: event.password));
   }
-void _onResetError(
-      ResetErrorEvent event, Emitter<LoginState> emit) {
+
+  void _onResetError(ResetErrorEvent event, Emitter<LoginState> emit) {
     // Reset the error message in the state
     emit(state.copyWith(errorMessage: ''));
   }
-  
 
   Future<void> _onLoginSubmitted(
       LoginSubmitted event, Emitter<LoginState> emit) async {
@@ -64,5 +62,10 @@ void _onResetError(
 
   void _handleError(Emitter<LoginState> emit) {
     emit(state.copyWith(errorMessage: "Oops! Something went wrong!"));
+  }
+
+  void _onLogout(LogoutEvent event, Emitter<LoginState> emit) async {
+    await UserPreferences.clearCredentials();
+    emit(state.copyWith(isLoggedIn: false));
   }
 }
